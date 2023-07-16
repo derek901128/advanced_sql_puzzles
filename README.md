@@ -1,2 +1,3 @@
 # advanced_sql_puzzles
-https://advancedsqlpuzzles.com/
+
+What a treasure trove of SQL puzzles -> https://advancedsqlpuzzles.com/ 
