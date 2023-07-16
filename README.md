@@ -1,3 +1,3 @@
 # advanced_sql_puzzles
 
-What a treasure trove of SQL puzzles -> https://advancedsqlpuzzles.com/ 
+Came across this list of 86 SQL puzzles, created by Scott Peters. Here's the url to the website: https://advancedsqlpuzzles.com/ 
