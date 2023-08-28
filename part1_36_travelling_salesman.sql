@@ -1,5 +1,6 @@
 with 
-base (
+base 
+(
     rid,
     dc,
     ac,
@@ -14,21 +15,22 @@ base (
     select 4, 'dallas', 'des moines', 400 from dual union all
     select 4, 'des moines', 'dallas', 400 from dual
 ),
-routes(
+routes
+(
     lvl,
     cdc,
     cac,
     p,
     tc
-) as (
+) as 
+(
     select 
     	1, dc, ac, dc || '->' || ac, cost
     from 
     	base
     where 
     	dc = 'austin'
-    and 
-    	ac <> 'des moines'
+    	and ac <> 'des moines'
     union all
     select 
 		a.lvl + 1,
@@ -38,11 +40,8 @@ routes(
     	a.tc + b.cost
     from 
     	routes a 
-    join
-    	base b
-    on
-    	a.cac = b.dc
-    and 
-    	a.p not like '%' || b.ac || '%'
+   	 	join base b
+	    	on a.cac = b.dc
+	    	and a.p not like '%' || b.ac || '%'
 )
 select p, tc from routes where cac = 'des moines';
