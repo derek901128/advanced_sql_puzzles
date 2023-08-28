@@ -1,17 +1,21 @@
 with 
-param(dim) as (
+param(dim) as 
+(
 	select 3 from dual
 ),
-base(num) as (
+base(num) as 
+(
     select 1 from dual 
     union all 
     select num + 1 from base 
     where num < ( select dim from param )
 ),
-combinations (
+combinations 
+(
     lvl,
     permutations
-) as (
+) as 
+(
     select
 		1,
     	to_char(num)
@@ -25,7 +29,6 @@ combinations (
     	combinations c, base b
     where
     	c.lvl < ( select dim from param )
-    and 
-    	c.permutations not like '%' ||  to_char(b.num) || '%'
+    	and c.permutations not like '%' ||  to_char(b.num) || '%'
 )
 select * from combinations where lvl = ( select dim from param ) ;
