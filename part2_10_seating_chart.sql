@@ -1,5 +1,6 @@
 with 
-seating_chart(seat_number) as (
+seating_chart(seat_number) as 
+(
     select 7 from dual union all
     select 13 from dual union all
     select 14 from dual union all
@@ -17,12 +18,14 @@ seating_chart(seat_number) as (
     select 53 from dual union all
     select 54 from dual
 ),
-anchor(num) as (
+anchor(num) as 
+(
     select 1 from dual
     union all
     select num + 1 from anchor where num < ( select max(seat_number) from seating_chart )
 ),
-combined as (
+combined as 
+(
     select 
 		a.num,
     	sc.seat_number,
@@ -39,9 +42,7 @@ combined as (
     	sum(case when mod(sc.seat_number, 2) <> 0 then 1 else 0 end) over() as odd_count
     from
     	anchor a
-    left join
-    	seating_chart sc
-    on 
-    	a.num = sc.seat_number
+	    left join seating_chart sc
+	    	on a.num = sc.seat_number
 )
 select * from combined order by num;
