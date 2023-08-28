@@ -1,8 +1,10 @@
 with 
-base (
+base 
+(
     id, 
     string
-) as (
+) as 
+(
     select 1, '()' from dual union all
     select 2, '[]' from dual union all
     select 3, '{}' from dual union all
@@ -13,7 +15,8 @@ base (
     select 8, '({)}}}()' from dual union all
     select 9, '}{()][' from dual
 ),
-translated as (
+translated as 
+(
     select
 		id, 
     	translate(string, '(){}[]', '112233') as string,
@@ -21,7 +24,8 @@ translated as (
     from
     	base
 ),
-with_reverse (
+with_reverse 
+(
     id,
     string,
     string_original,
@@ -29,7 +33,8 @@ with_reverse (
     chr,
     chr_opposite,
     score
-) as (
+) as 
+(
     select 
 		a.id,
     	a.string,
@@ -40,19 +45,20 @@ with_reverse (
     	b.chr - b.chr_opposite
 	from
 		translated a
-    cross apply 
-    	(
-    		select 
-    			level as pair_id,
+	    cross apply 
+		(
+			select 
+				level as pair_id,
 				substr(c.string, length(c.string)/2 - (level - 1), 1) as chr,
-    			substr(c.string, length(c.string)/2 + level, 1) as chr_opposite
-    		from
-    			( select * from translated d where a.id = d.id ) c
-    		connect by 
-    			level <= length(c.string) / 2
-        ) b
+				substr(c.string, length(c.string)/2 + level, 1) as chr_opposite
+			from
+				( select * from translated d where a.id = d.id ) c
+			connect by 
+				level <= length(c.string) / 2
+		) b
 ),
-solution as (
+solution as 
+(
     select 
         id,
     	string_original,
