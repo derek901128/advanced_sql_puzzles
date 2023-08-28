@@ -1,16 +1,20 @@
 with
-param(len) as (
+param(len) as 
+(
     select 4 from dual
 ),
-base(n) as (
+base(n) as 
+(
     select 0 from dual union all
     select 1 from dual 
 ),
-combination(
+combination
+(
     lvl,
     cur_num,
     permutation
-) as (
+) as 
+(
     select 1, n, to_char(n) from base 
     union all
     select 
@@ -22,7 +26,8 @@ combination(
     where
     	a.lvl < ( select len from param )
 ),
-solution as (
+solution as 
+(
 	select permutation from combination where lvl = ( select len from param )
 )
 select * from solution;
