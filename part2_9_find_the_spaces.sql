@@ -1,12 +1,15 @@
 with
-base(statement) as (
+base(statement) as 
+(
     select 'select empid from emps;' from dual union all
     select 'select * from trans;' from dual
 ),
-with_id as(
+with_id as
+(
     select rownum as id, statement from base
 ),
-summary(
+summary
+(
     row_no,
     id,
     statement,
@@ -14,7 +17,8 @@ summary(
     position,
     word,
     total_spaces
-) as (
+) as 
+(
     select 
 		1,
     	id,
