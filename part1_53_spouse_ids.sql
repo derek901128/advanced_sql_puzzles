@@ -1,8 +1,10 @@
 with
-base (
+base 
+(
     pid,
     sid
-) as (
+) as 
+(
     select 'pat', 'charlie' from dual union all
     select 'jordan', 'casey' from dual union all
     select 'ashley', 'dee' from dual union all
@@ -10,7 +12,8 @@ base (
     select 'casey', 'jordan' from dual union all
     select 'dee', 'ashley' from dual
 ),
-spouse_group as (
+spouse_group as 
+(
     select 
     	pid,
     	sid,
