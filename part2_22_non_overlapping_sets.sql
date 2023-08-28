@@ -1,9 +1,11 @@
 with 
-base(
+base
+(
     order_id,
     line_item,
     cost
-) as (
+) as 
+(
     select 1, 1, 9 from dual union all
     select 1, 2, 15 from dual union all
     select 1, 3, 7 from dual union all
@@ -16,12 +18,14 @@ base(
     select 3, 1, 3 from dual union all
     select 3, 2, 4 from dual
 ),
-combinations (
+combinations 
+(
     lvl,
     order_id,
     permutation,
     total
-) as (
+) as 
+(
     select 
     	1, 
     	order_id, 
@@ -39,30 +43,28 @@ combinations (
     	c.total + b.cost
     from
     	combinations c
-    join
-    	( select * from base where cost < 10 ) b
-    on 
-    	c.order_id = b.order_id
-    and
-    	to_char(b.line_item) > c.permutation
-    and 
-    	to_char(b.line_item) > c.permutation
-    and 
-    	b.cost + c.total >= 10
+	    join ( select * from base where cost < 10 ) b
+		    on c.order_id = b.order_id
+		    and to_char(b.line_item) > c.permutation
+		    and to_char(b.line_item) > c.permutation
+		    and b.cost + c.total >= 10
     where
     	c.lvl < 2
 ),
-combinations_all as (
+combinations_all as 
+(
 	select order_id, permutation, total from combinations where total >= 10
     union all
     select order_id, to_char(line_item), cost from base where cost >= 10
 ),
-non_overlapping_sets (
+non_overlapping_sets 
+(
     lvl,
     order_id,
 	permutation,
     set_combinations
-) as (
+) as 
+(
  	select 1, order_id, permutation, '(' || permutation || ')' from combinations_all
     union all
     select 
@@ -72,30 +74,32 @@ non_overlapping_sets (
     	a.set_combinations || ',(' || b.permutation || ')'
     from 
     	non_overlapping_sets a 
-    join
- 		combinations_all b
-    on 
-    	a.order_id = b.order_id 
-    and 
-    	regexp_substr(b.permutation, '\d', 1, 1) > regexp_substr(a.permutation, '\d', 1, 1)
-    and 
-    	a.set_combinations not like '%' || nvl(regexp_substr(b.permutation, '\d', 1, 2), regexp_substr(b.permutation, '\d', 1, 1)) || '%'
-    and 
-    	a.set_combinations not like '%' || regexp_substr(b.permutation, '\d', 1, 1) || '%'
+	    join combinations_all b
+		    on a.order_id = b.order_id 
+		    and regexp_substr(b.permutation, '\d', 1, 1) > regexp_substr(a.permutation, '\d', 1, 1)
+		    and a.set_combinations not like '%' || nvl(regexp_substr(b.permutation, '\d', 1, 2), regexp_substr(b.permutation, '\d', 1, 1)) || '%'
+		    and a.set_combinations not like '%' || regexp_substr(b.permutation, '\d', 1, 1) || '%'
     where
     	a.lvl < 3
 ),
-solution as (
+solution as 
+(
 	select 
     	a.order_id,
     	regexp_count(b.set_combinations, '\(\d,?\d?\)') as set_count,
     	b.set_combinations
     from 
     	( select distinct order_id from base ) a  
-    left join
-    	( select * from non_overlapping_sets where regexp_count(set_combinations, '\(\d,?\d?\)') = 3 ) b
-    on
-    	a.order_id = b.order_id
+	    left join 
+			( 
+				select 
+					* 
+				from 
+					non_overlapping_sets 
+				where r
+					egexp_count(set_combinations, '\(\d,?\d?\)') = 3 
+			) b
+	    	on a.order_id = b.order_id
 )
 select * from solution
 ;
