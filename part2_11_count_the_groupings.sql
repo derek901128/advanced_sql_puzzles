@@ -1,8 +1,10 @@
 with
-base(
+base
+(
     step_number,
     status
-) as (
+) as 
+(
     select 1, 'passed' from dual union all
     select 2, 'passed' from dual union all
     select 3, 'passed' from dual union all
@@ -16,7 +18,8 @@ base(
     select 11, 'passed' from dual union all
     select 12, 'passed' from dual
 ),
-groupings as(
+groupings as
+(
     select 
 		step_number,
     	status,
@@ -24,7 +27,8 @@ groupings as(
     from
     	base
 ),
-count_groupings as(
+count_groupings as
+(
 	select 
     	grp,
     	status,
