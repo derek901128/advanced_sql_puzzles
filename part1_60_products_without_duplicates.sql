@@ -1,8 +1,10 @@
 with
-base(
+base
+(
     product,
     product_id
-) as (
+) as 
+(
     select 'alpha', '01' from dual union all
     select 'alpha', '02' from dual union all
     select 'bravo', '03' from dual union all
@@ -13,7 +15,8 @@ base(
     select 'foxtrot', 'EE' from dual union all
     select 'gulf', 'GG' from dual
 ),
-count_product as (
+count_product as 
+(
     select 
         product,
         count(*) over(partition by product) as product_count, 
@@ -21,7 +24,8 @@ count_product as (
     from 
         base
 ),
-solution as (
+solution as 
+(
     select
     	product_id,
         max(product_count) as max_product_count
