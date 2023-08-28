@@ -1,5 +1,6 @@
 with
-base(
+base
+(
     id,
     sd,
     ed,
@@ -12,14 +13,16 @@ base(
     select 2002, '2021-9-1', '2021-9-17', 42.12 from dual union all
     select 2002, '2021-8-15', '2021-8-31', 16.32 from dual
 ),
-add_row_no as (
+add_row_no as 
+(
 	select 
     	row_number()over(order by 1) as n,
 		base.*
     from
     	base 
 ),
-overlap as (
+overlap as 
+(
 	select 
 		a.id,
     	a.sd,
@@ -27,15 +30,10 @@ overlap as (
     	a.amt
     from 
     	add_row_no a
-    join
-    	add_row_no b
-    on 
-    	a.n <> b.n
-    and 
-    	a.id = b.id
-    and 
-    	to_date(a.sd, 'yyyy-mm-dd') <= to_date(b.sd, 'yyyy-mm-dd')
-    and 
-    	to_date(a.ed, 'yyyy-mm-dd') >= to_date(b.ed, 'yyyy-mm-dd')
+	    join add_row_no b
+		    on a.n <> b.n
+		    and a.id = b.id
+		    and to_date(a.sd, 'yyyy-mm-dd') <= to_date(b.sd, 'yyyy-mm-dd')
+		    and to_date(a.ed, 'yyyy-mm-dd') >= to_date(b.ed, 'yyyy-mm-dd')
 )
 select * from overlap;
