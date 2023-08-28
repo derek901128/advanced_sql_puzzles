@@ -1,5 +1,6 @@
 with 
-factorials (
+factorials 
+(
     cur_num,
     factorial
 ) as (
