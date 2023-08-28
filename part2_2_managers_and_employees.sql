@@ -1,9 +1,11 @@
 with 
-employees(
+employees
+(
     employee_id,
     manager_id,
     job_title
-) as (
+) as 
+(
     select 1001, null, 'president' from dual union all
     select 2002, 1001, 'director' from dual union all
     select 3003, 1001, 'office manager' from dual union all
@@ -11,12 +13,14 @@ employees(
     select 5005, 2002, 'engineer' from dual union all
     select 6006, 2002, 'engineer' from dual
 ),
-find_depth(
+find_depth
+(
     employee_id,
     manager_id,
     job_title,
     depth
-) as (
+) as 
+(
     select 
         employee_id, 
         manager_id, 
@@ -34,9 +38,7 @@ find_depth(
         fd.depth + 1
     from 
         find_depth fd
-    join
-        employees e
-    on
-        fd.employee_id = e.manager_id 
+        join employees e
+            on fd.employee_id = e.manager_id 
 )
 select * from find_depth;
