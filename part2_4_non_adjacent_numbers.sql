@@ -1,15 +1,19 @@
 with 
-param(lvl) as (
+param(lvl) as 
+(
     select 4 from dual
 ),
-base(num) as (
+base(num) as 
+(
     select level from dual connect by level <= ( select lvl from param )
 ),
-non_adjacent(
+non_adjacent
+(
     lvl,
     cur_num,
     permutaion
-) as (
+) as 
+(
     select 
     	1,
     	num,
@@ -25,12 +29,11 @@ non_adjacent(
 		non_adjacent a, base b
     where
     	a.permutaion not like '%' || to_char(b.num) || '%'
-    and 
-    	a.lvl < ( select lvl from param )
-    and 
-		abs(b.num - a.cur_num) > 1 
+	    and a.lvl < ( select lvl from param )
+	    and abs(b.num - a.cur_num) > 1 
 ),
-solution as (
+solution as 
+(
 	select 
     	permutaion 
     from 
