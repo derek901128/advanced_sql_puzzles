@@ -1,8 +1,10 @@
 with 
-growing_numbers(
+growing_numbers
+(
     n,
     p
-) as (
+) as 
+(
     select 1, '1' from dual
     union all
     select 
