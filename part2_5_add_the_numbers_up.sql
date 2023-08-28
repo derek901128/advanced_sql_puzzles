@@ -1,40 +1,46 @@
 with 
-para(n) as (
+para(n) as 
+(
     select 3 from dual
 ),
-base(num) as (
+base(num) as 
+(
     select level from dual connect by level <= ( select n from para )
 ),
-factors(factor) as(
+factors(factor) as
+(
     select 1 from dual union all
     select -1 from dual
 ),
-combination(
+combination
+(
     base_set,
     num
-) as (
+) as 
+(
     select 
     	distinct
     	( select listagg(num) within group (order by num) from base ),
-    	substr(
+    	substr
+		(
     		( select listagg(num) within group (order by num) from base ),
     		a.num,
     		b.num
         ) * f.factor
     from 
     	base a 
-    cross join 
-    	base b
-    cross join 
-    	factors f
+	    cross join base b
+	    cross join factors f
 ),
-formula(
+formula
+(
     lvl, 
     base_set,
     cur_num,
 	permutation,
     sum
-) as (
+) as 
+(
     select 
     	1,
     	base_set,
@@ -60,10 +66,10 @@ formula(
     	formula a, combination b
     where
     	to_number(substr(to_char(abs(b.num)), 1, 1)) - to_number(substr(a.permutation, length(a.permutation), 1)) = 1
-    and 
-    	a.lvl < ( select n from para )
+    	and a.lvl < ( select n from para )
 ),
-solution as (
+solution as 
+(
 	select 
     	permutation,
     	sum
