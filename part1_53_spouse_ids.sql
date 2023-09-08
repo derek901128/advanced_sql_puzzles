@@ -1,8 +1,8 @@
 with
 base 
 (
-    pid,
-    sid
+    pid
+    , sid
 ) as 
 (
     select 'pat', 'charlie' from dual union all
@@ -15,9 +15,9 @@ base
 spouse_group as 
 (
     select 
-    	pid,
-    	sid,
-    	dense_rank() over(order by least(pid, sid) || greatest(pid, sid)) as group_id
+    	pid
+    	, sid
+    	, dense_rank() over(order by least(pid, sid) || greatest(pid, sid)) as group_id
     from
  		base
 )
