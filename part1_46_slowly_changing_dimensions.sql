@@ -1,10 +1,10 @@
 with
 base
 (
-    id,
-    sd,
-    ed,
-    amt
+    id
+    , sd
+    , ed
+    , amt
 ) as (
     select 1001, '2021-10-11', '9999-12-31', 54.32 from dual union all
     select 1001, '2021-10-10', '2021-10-10', 17.65 from dual union all
@@ -16,18 +16,18 @@ base
 add_row_no as 
 (
 	select 
-    	row_number()over(order by 1) as n,
-		base.*
+    	row_number()over(order by 1) as n
+		, base.*
     from
     	base 
 ),
 overlap as 
 (
 	select 
-		a.id,
-    	a.sd,
-    	a.ed,
-    	a.amt
+		a.id
+    	, a.sd
+    	, a.ed
+    	, a.amt
     from 
     	add_row_no a
 	    join add_row_no b
