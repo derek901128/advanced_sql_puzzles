@@ -14,24 +14,24 @@ base(equation) as
 add_row_no as 
 (
     select 
-    	row_number() over(order by rownum) as row_no,
-    	equation
+    	row_number() over(order by rownum) as row_no
+    	, equation
 	from
     	base
 ),
 breakup as 
 (
     select 
-        a.row_no,
-    	a.equation,
-        b.*
+        a.row_no
+    	, a.equation
+        , b.*
     from
         add_row_no a 
 	    cross apply 
 		(
 			select 
-				level as element_id,
-				regexp_substr(equation, '\-?\d+', 1, level) as element
+				level as element_id
+				, regexp_substr(equation, '\-?\d+', 1, level) as element
 			from
 				( select * from add_row_no d where d.row_no = a.row_no ) c
 			connect by 
@@ -41,9 +41,9 @@ breakup as
 solution as 
 (
 	select
-    	row_no,
-    	equation as permutaion,
-    	sum(element) as sum
+    	row_no
+    	, equation as permutaion
+    	, sum(element) as sum
 	from 
     	breakup
     group by 
