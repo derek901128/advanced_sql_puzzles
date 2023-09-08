@@ -1,9 +1,9 @@
 with
 base
 (
-    sid,
-    jd,
-    cnt
+    sid
+    , jd
+    , cnt
 ) as 
 (
     select 1001, 'astrogator', 6 from dual union all
@@ -19,18 +19,18 @@ base
 first_and_last as 
 (
     select 
-    	jd,
-    	min(cnt) as least_exp,
-    	max(cnt) as most_exp
+    	jd
+    	, min(cnt) as least_exp
+    	, max(cnt) as most_exp
     from
     	base
     group by 
     	jd
 )
 select 
-	a.jd,
-	b.sid as least_exp,
-	c.sid as most_exp
+	a.jd
+	, b.sid as least_exp
+	, c.sid as most_exp
 from 
     first_and_last a
 	join base b
