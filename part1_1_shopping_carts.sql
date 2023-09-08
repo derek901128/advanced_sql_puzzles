@@ -17,13 +17,13 @@ cart_two(item) as
 ),
 solution
 (
-    item_cart_one,
-    item_cart_two
+    item_cart_one
+    , item_cart_two
 ) as 
 (
     select 
-        a.item,
-        b.item
+        a.item
+        , b.item
     from 
         cart_one a
         full outer join cart_two b
